@@ -94,6 +94,8 @@ def carregar_livros():
     return preparar_livros(ler_livros())
 
 
+
+
 if __name__ == "__main__":
     livros = ler_livros()
     print(f"{len(livros)} livros carregados")
