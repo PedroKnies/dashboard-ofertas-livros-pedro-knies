@@ -13,7 +13,7 @@ def montar_tabela(livros):
             "Título": livro["titulo"],
             "Categoria": livro["categoria"],
             "Nota": livro["nota"] * "⭐",
-            "Preço": f"£ {livro["preco"]:.2f}",
+            "Preço": f'£ {livro["preco"]:.2f}',
             "Faixa": classificar_preco(livro["preco"])
         }
         tabela.append(linha)
@@ -55,7 +55,7 @@ def filtrar_por_categoria(livros, categoria):
     for livro in livros:
         if livro["categoria"] == categoria:
             resultado.append(livro)
-    return
+    return resultado
 
 
 
@@ -65,7 +65,7 @@ def main():
 
     colbusca, colcategorias = st.columns(2)
 
-    busca = colbusca.text_input("pesquisar por titulo ou categoria", "")
+    busca = colbusca.text_input("pesquisar por titulo", "")
     buscacategoria = colcategorias.text_input("pesquisar por categoria", "")
 
     livros = dados.carregar_livros()
@@ -113,7 +113,7 @@ def main():
     col3.metric("Qtd. livros 5 Estrelas", cinco_estrelas)
 
     mais_caro = dados.encontrar_mais_caro(livros_filtrados)
-    col4.metric("Livro mais caro", f"£{mais_caro["preco"]}")
+    col4.metric("Livro mais caro", f'£{mais_caro["preco"]}')
     col4.caption(mais_caro["titulo"])
 
 
