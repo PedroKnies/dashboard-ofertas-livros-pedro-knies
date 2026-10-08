@@ -40,12 +40,33 @@ def contar_por_faixa(livros):
 
     return contagem
 
+def listar_categorias(livros):
+    categorias = []
+    for livro in livros:
+        if livro["categoria"] not in categorias:
+            categorias.append(livro["categoria"])
+
+    categorias.sort()
+    return categorias
+
+
+def filtrar_por_categoria(livros, categoria):
+    resultado = []
+    for livro in livros:
+        if livro["categoria"] == categoria:
+            resultado.append(livro)
+    return
+
+
 
 def main():
     st.set_page_config(page_title="Dashboard de Livros", page_icon="📚", layout="wide")
     st.title("📚 Dashboard de Livros")
 
-    busca = st.text_input("pesquisar por titulo ou categoria", "")
+    colbusca, colcategorias = st.columns(2)
+
+    busca = colbusca.text_input("pesquisar por titulo ou categoria", "")
+    buscacategoria = colcategorias.text_input("pesquisar por categoria", "")
 
     livros = dados.carregar_livros()
     if busca:
@@ -63,6 +84,20 @@ def main():
         st.info("Nenhum livro encontrado para a busca informada.", icon="🔍")
         return
 
+    if buscacategoria:
+        buscacategoria = buscacategoria.strip().lower()
+    
+    if buscacategoria == "todas":
+        livros_filtrados = livros
+    else:
+        livros_filtrados = [
+            livro for livro in livros_filtrados
+            if buscacategoria in livro["categoria"].lower()
+        ]
+
+    if not livros_filtrados:
+        st.info("Nenhum livro encontrado para a busca informada.", icon="🔍")
+        return
     tabela = montar_tabela(livros_filtrados)
 
 
